@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: netdata
+  namespace: infra
+  labels:
+    app: netdata
+spec:
+  selector:
+    matchLabels:
+      app: netdata
+  template:
+    metadata:
+      labels:
+        app: netdata
+    spec:
+      hostNetwork: true
+      hostPID: true
+      dnsPolicy: ClusterFirstWithHostNet
+
+      containers:
+        - name: netdata
+          image: netdata/netdata:stable
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 512Mi
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - SYS_PTRACE
+                - SYS_ADMIN
+            seccompProfile:
+              type: Unconfined
+          env:
+            - name: NETDATA_CLAIM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: netdata-secrets
+                  key: NETDATA_CLAIM_TOKEN
+            - name: NETDATA_CLAIM_URL
+              valueFrom:
+                secretKeyRef:
+                  name: netdata-secrets
+                  key: NETDATA_CLAIM_URL
+            - name: NETDATA_CLAIM_ROOMS
+              valueFrom:
+                secretKeyRef:
+                  name: netdata-secrets
+                  key: NETDATA_CLAIM_ROOMS
+
+          volumeMounts:
+            - name: netdataconfig
+              mountPath: /etc/netdata
+            - name: netdatalib
+              mountPath: /var/lib/netdata
+            - name: netdatacache
+              mountPath: /var/cache/netdata
+
+            - name: host-root
+              mountPath: /host/root
+              readOnly: true
+            - name: host-passwd
+              mountPath: /host/etc/passwd
+              readOnly: true
+            - name: host-group
+              mountPath: /host/etc/group
+              readOnly: true
+            - name: host-localtime
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: host-proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: host-sys
+              mountPath: /host/sys
+              readOnly: true
+            - name: host-osrelease
+              mountPath: /host/etc/os-release
+              readOnly: true
+            - name: host-varlog
+              mountPath: /host/var/log
+              readOnly: true
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+              readOnly: true
+
+      volumes:
+        - name: netdataconfig
+          hostPath:
+            path: /var/lib/netdata/config
+            type: DirectoryOrCreate
+        - name: netdatalib
+          hostPath:
+            path: /var/lib/netdata/lib
+            type: DirectoryOrCreate
+        - name: netdatacache
+          hostPath:
+            path: /var/lib/netdata/cache
+            type: DirectoryOrCreate
+
+        - name: host-root
+          hostPath:
+            path: /
+        - name: host-passwd
+          hostPath:
+            path: /etc/passwd
+        - name: host-group
+          hostPath:
+            path: /etc/group
+        - name: host-localtime
+          hostPath:
+            path: /etc/localtime
+        - name: host-proc
+          hostPath:
+            path: /proc
+        - name: host-sys
+          hostPath:
+            path: /sys
+        - name: host-osrelease
+          hostPath:
+            path: /etc/os-release
+        - name: host-varlog
+          hostPath:
+            path: /var/log
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock

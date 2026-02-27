@@ -5,15 +5,35 @@ metadata:
   namespace: argocd
   labels:
     app: argocd
-    env: production
 spec:
-  project: shared
+  project: argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   sources:
-    - repoURL: https://github.com/samymokhtari/box.infra.git
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
       path: kubernetes/argocd
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infra-ns
+  namespace: argocd
+  labels:
+    app: infra
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra
       targetRevision: main
   syncPolicy:
     automated:
@@ -27,19 +47,165 @@ metadata:
   namespace: argocd
   labels:
     app: letsencrypt
-    env: production
 spec:
-  project: shared
+  project: infra
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
   sources:
-    - repoURL: https://github.com/samymokhtari/box.infra.git
-      path: kubernetes/letsencrypt
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/letsencrypt
       targetRevision: main
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mariadb
+  namespace: argocd
+  labels:
+    app: mariadb
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/databases/mariadb
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: azuresql
+  namespace: argocd
+  labels:
+    app: azuresql
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/databases/azuresql
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  labels:
+    app: grafana
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/grafana
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+  labels:
+    app: loki
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/loki
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: netdata
+  namespace: argocd
+  labels:
+    app: netdata
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/netdata
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+  labels:
+    app: prometheus
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/prometheus
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: muslimbot
+  namespace: argocd
+  labels:
+    app: muslimbot
+spec:
+  project: muslimbot
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: muslimbot
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/muslimbot
+      targetRevision: main
+  syncPolicy:
     automated:
       prune: true
       selfHeal: true
