@@ -1,0 +1,66 @@
+name: Deploy Docker Compose
+run-name: "Deploy trigerred by @${{ github.actor }}"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+env:
+  dockercompose: "docker-compose.yml"
+
+jobs:
+  deploy-sources:
+    env:
+      FULLPATH: /srv/databases
+    environment: on-premise
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy Script Install & Docker compose via ssh
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: ${{ env.dockercompose }}
+          overwrite: true
+          target: ${{ env.FULLPATH }}
+
+      - name: Give permissions to execute scripts
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            chmod +x ${{ env.FULLPATH }}/${{ env.dockercompose }}
+
+      - name: Set environments variable in a file .env
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ env.FULLPATH }}
+            [ -e .env ] && rm .env
+            echo "MARIADB_ROOT_USERNAME=${{ secrets.DB_USER }}" >> .env
+            echo "MARIADB_ROOT_PASSWORD=${{ secrets.DB_PASS }}" >> .env
+
+      - name: Setup Machine and Deploy Docker Containers
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo Starting Docker Compose...
+            cd ${{ env.FULLPATH }} 
+            docker compose pull
+            docker compose up --detach --remove-orphans

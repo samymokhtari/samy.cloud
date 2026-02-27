@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: infra
+  labels:
+    name: infra
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: infra-quota
+  namespace: infra
+spec:
+  hard:
+    requests.cpu: "80m"
+    limits.cpu: "650m"
+    requests.memory: 256Mi
+    limits.memory: 1300Mi

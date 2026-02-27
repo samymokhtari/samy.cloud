@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: databases
+  name: infra
   namespace: argocd
 spec:
-  description: Project for database-related applications
+  description: Project for infra deployments like monitoring, databases, etc.
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
   sourceRepos:
-    - https://github.com/samymokhtari/box.infra.git
+    - https://github.com/samymokhtari/samy.cloud.git
   destinations:
     - server: https://kubernetes.default.svc
       namespace: "*"
@@ -18,51 +18,33 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: monitoring
+  name: muslimbot
   namespace: argocd
 spec:
-  description: Project for monitoring-related applications
+  description: Project for muslimbot namespace
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
   sourceRepos:
-    - https://github.com/samymokhtari/box.infra.git
-    - https://sonarsource.github.io/helm-chart-sonarqube
+    - https://github.com/samymokhtari/samy.cloud.git
   destinations:
     - server: https://kubernetes.default.svc
-      namespace: "*"
+      namespace: "muslimbot"
       name: in-cluster
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: apps
+  name: schnekzer
   namespace: argocd
 spec:
-  description: Project for application deployments
+  description: Project for schnekzer namespace
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
   sourceRepos:
-    - https://github.com/samymokhtari/box.infra.git
+    - https://github.com/samymokhtari/samy.cloud.git
   destinations:
     - server: https://kubernetes.default.svc
-      namespace: "*"
-      name: in-cluster
----
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: shared
-  namespace: argocd
-spec:
-  description: Project for application deployments
-  clusterResourceWhitelist:
-    - group: "*"
-      kind: "*"
-  sourceRepos:
-    - https://github.com/samymokhtari/box.infra.git
-  destinations:
-    - server: https://kubernetes.default.svc
-      namespace: "*"
+      namespace: "schnekzer"
       name: in-cluster

@@ -1,0 +1,17 @@
+# .yamllint.yaml
+extends: default
+
+rules:
+  line-length:
+    max: 200 # Kubernetes a souvent des secrets ou configs longues
+    level: warning
+  document-start:
+    present: false # pas besoin du "---" sur tous les manifests
+  truthy:
+    level: warning
+  comments-indentation:
+    level: warning
+  new-line-at-end-of-file:
+    level: warning
+  indentation:
+    spaces: 2
