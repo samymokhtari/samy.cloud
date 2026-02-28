@@ -5,7 +5,7 @@ metadata:
   namespace: infra
 spec:
   type: ExternalName
-  externalName: 192.168.1.165 # ou IP de ta machine hôte visible depuis K3s
+  externalName: 192.168.1.165
   ports:
     - port: 3306
 
