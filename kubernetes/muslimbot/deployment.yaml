@@ -99,7 +99,7 @@ spec:
       volumes:
         - name: quran-volume
           hostPath:
-            path: /home/sm/quran # NFS path
+            path: /mnt/nfs_share/quran # NFS path
             type: Directory
         - name: logs-volume
           persistentVolumeClaim:
