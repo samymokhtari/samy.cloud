@@ -4,7 +4,17 @@ metadata:
   name: mariadb
   namespace: muslimbot
 spec:
-  type: ExternalName
-  externalName: 192.168.1.165
   ports:
     - port: 3306
+      targetPort: 3306
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: mariadb
+  namespace: muslimbot
+subsets:
+  - addresses:
+      - ip: 192.168.1.165
+    ports:
+      - port: 3306
