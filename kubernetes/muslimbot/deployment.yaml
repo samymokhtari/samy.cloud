@@ -15,8 +15,6 @@ spec:
       labels:
         app: muslimbot
     spec:
-      imagePullSecrets:
-        - name: gchr-secrets
       containers:
         - name: muslimbot
           image: ghcr.io/fivekage/muslimbot:1.2.13

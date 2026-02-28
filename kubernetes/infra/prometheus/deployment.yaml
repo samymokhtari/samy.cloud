@@ -15,7 +15,14 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: prom/prometheus:latest
+          image: prom/prometheus:v3.10.0
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
           args:
