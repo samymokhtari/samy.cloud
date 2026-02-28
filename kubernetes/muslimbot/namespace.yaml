@@ -14,5 +14,5 @@ spec:
   hard:
     requests.cpu: "500m"
     limits.cpu: "500m"
-    requests.memory: "512Mi"
-    limits.memory: "512Mi"
+    requests.memory: "1Gi"
+    limits.memory: "1Gi"
