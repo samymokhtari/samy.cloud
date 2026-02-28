@@ -77,7 +77,7 @@ spec:
     namespace: infra
   sources:
     - repoURL: https://github.com/samymokhtari/samy.cloud.git
-      path: kubernetes/infra/databases/mariadb
+      path: kubernetes/infra/mariadb
       targetRevision: main
   syncPolicy:
     automated:
@@ -162,6 +162,27 @@ spec:
   sources:
     - repoURL: https://github.com/samymokhtari/samy.cloud.git
       path: kubernetes/infra/prometheus
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-exporter
+  namespace: argocd
+  labels:
+    app: prometheus
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infra
+  sources:
+    - repoURL: https://github.com/samymokhtari/samy.cloud.git
+      path: kubernetes/infra/node-exporter
       targetRevision: main
   syncPolicy:
     automated:
