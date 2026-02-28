@@ -29,8 +29,8 @@ spec:
               memory: "64Mi"
               cpu: "20m"
             limits:
-              memory: "512Mi"
-              cpu: "300m"
+              memory: 256Mi
+              cpu: 200m
           volumeMounts:
             - name: config
               mountPath: /etc/loki

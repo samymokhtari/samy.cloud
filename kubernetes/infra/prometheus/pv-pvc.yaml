@@ -9,6 +9,7 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path
   hostPath:
     path: /mnt/data/prometheus

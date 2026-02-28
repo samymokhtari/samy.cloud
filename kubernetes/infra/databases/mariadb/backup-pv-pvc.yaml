@@ -10,6 +10,7 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteOnce # Allows multiple pods to read and write to the volume
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path
   hostPath:
     path: "/mnt/data/mariadb-backups" # Directory on the host node where backups will be stored
