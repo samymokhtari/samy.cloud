@@ -22,7 +22,7 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: mariadb-secrets
-                      key: DB_PASSWORD
+                      key: DB_PASS
               volumeMounts:
                 - name: backup-storage
                   mountPath: /backups
