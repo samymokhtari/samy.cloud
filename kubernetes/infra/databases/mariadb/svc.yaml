@@ -3,13 +3,25 @@ kind: Service
 metadata:
   name: mariadb
   namespace: infra
-  labels:
-    type: db
 spec:
+  type: ExternalName
+  externalName: 192.168.1.165 # ou IP de ta machine hôte visible depuis K3s
   ports:
-    - port: 3306 # Port sur lequel le Service écoute
-      targetPort: 3306 # Port sur lequel MariaDB écoute
-  type: ClusterIP
+    - port: 3306
+
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mariadb
+#   namespace: infra
+#   labels:
+#     type: db
+# spec:
+#   ports:
+#     - port: 3306 # Port sur lequel le Service écoute
+#       targetPort: 3306 # Port sur lequel MariaDB écoute
+#   type: ClusterIP
 ---
 apiVersion: v1
 kind: Endpoints
