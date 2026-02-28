@@ -87,27 +87,6 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: azuresql
-  namespace: argocd
-  labels:
-    app: azuresql
-spec:
-  project: infra
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: infra
-  sources:
-    - repoURL: https://github.com/samymokhtari/samy.cloud.git
-      path: kubernetes/infra/databases/azuresql
-      targetRevision: main
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
   name: grafana
   namespace: argocd
   labels:

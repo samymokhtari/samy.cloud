@@ -86,8 +86,10 @@ spec:
           resources:
             requests:
               cpu: "10m"
+              memory: "64Mi"
             limits:
               cpu: "100m"
+              memory: "128Mi"
           volumeMounts:
             - name: logs-volume
               mountPath: /fluent-bit/logs # Fluent Bit lit les logs ici
