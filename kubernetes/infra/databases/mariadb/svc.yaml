@@ -4,24 +4,9 @@ metadata:
   name: mariadb
   namespace: infra
 spec:
-  type: ExternalName
-  externalName: 192.168.1.165
   ports:
     - port: 3306
-
-
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: mariadb
-#   namespace: infra
-#   labels:
-#     type: db
-# spec:
-#   ports:
-#     - port: 3306 # Port sur lequel le Service écoute
-#       targetPort: 3306 # Port sur lequel MariaDB écoute
-#   type: ClusterIP
+      targetPort: 3306
 ---
 apiVersion: v1
 kind: Endpoints
@@ -30,6 +15,6 @@ metadata:
   namespace: infra
 subsets:
   - addresses:
-      - ip: 192.168.1.165 # Adresse IP de votre base de données MariaDB
+      - ip: 192.168.1.165
     ports:
-      - port: 3306 # Port sur lequel MariaDB écoute
+      - port: 3306

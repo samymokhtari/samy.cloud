@@ -53,7 +53,7 @@ spec:
                   name: muslimbot-secrets
                   key: CLIENT_ID
             - name: DB_HOST
-              value: mariadb.infra.svc.cluster.local
+              value: mariadb.muslimbot.svc.cluster.local
             - name: DB_DATABASE
               value: muslimbot
             - name: HADITH_API_KEY
