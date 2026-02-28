@@ -16,7 +16,6 @@ spec:
     spec:
       hostPID: true
       hostNetwork: true
-      serviceAccountName: node-exporter
       containers:
         - name: node-exporter
           image: quay.io/prometheus/node-exporter:v1.6.0
