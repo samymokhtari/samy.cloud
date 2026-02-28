@@ -24,11 +24,11 @@ spec:
               drop: ["ALL"]
           resources:
             requests:
-              cpu: "100m"
-              memory: "500Mi"
+              cpu: "50m"
+              memory: "256Mi"
             limits:
-              cpu: "400m"
-              memory: "800Mi"
+              cpu: "200m"
+              memory: "512Mi"
           env:
             - name: NODE_ENV
               value: production
