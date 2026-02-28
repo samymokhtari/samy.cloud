@@ -12,7 +12,7 @@ metadata:
   namespace: muslimbot
 spec:
   hard:
-    requests.cpu: "200m"
+    requests.cpu: "500m"
     limits.cpu: "500m"
     requests.memory: "512Mi"
-    limits.memory: "1Gi"
+    limits.memory: "512Mi"
