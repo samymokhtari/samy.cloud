@@ -1,6 +1,35 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
+  name: argocd
+  namespace: argocd
+  labels:
+    purpose: platform # label pour filtrer dans l’UI
+    team: fivekage
+spec:
+  description: Applications pour gérer Argo CD lui-même
+
+  # Repos Git autorisés
+  sourceRepos:
+    - https://github.com/samymokhtari/samy.cloud.git
+
+  # Clusters / namespaces autorisés
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: argocd
+
+  # Ressources autorisées
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
   name: infra
   namespace: argocd
 spec:
