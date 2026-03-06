@@ -1,17 +1,16 @@
-# Box Infrastructure
-Box project infrastructure hosted on Google Cloud Platform
+# Private Cloud Infrastructure
 
-On-Premise infrastructure is hosted on a dedicated server.
+## Kubernetes Cluster
 
-OS Used: Debian 12
-
-https://docs.docker.com/engine/swarm/stack-deploy/
-
+The Kubernetes cluster is managed using ArgoCD, which allows for GitOps-based deployment and management of applications and infrastructure.
 
 ## Setup Docker Containers
 
+- Create a .env file following the .env.example file and fill in the required values.
+- Then run the following command to start the containers:
+
 ```bash
-docker compose up -d -e MSSQL_SA_PASSWORD=pwd -e MARIADB_ROOT_USERNAME=username -e MARIADB_ROOT_PASSWORD=pwd --name box-db 
+docker compose up -d
 ```
 
 ## Backup And Restore
@@ -19,9 +18,3 @@ docker compose up -d -e MSSQL_SA_PASSWORD=pwd -e MARIADB_ROOT_USERNAME=username 
 https://mariadb.com/kb/en/container-backup-and-restoration/
 
 ## Setting up SSL certificate for nginx web server
-
-https://mindsers.blog/en/post/https-using-nginx-certbot-docker/
-
-```bash
-docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d example.com -d 'box.example.com' --cert-name example.com
-```

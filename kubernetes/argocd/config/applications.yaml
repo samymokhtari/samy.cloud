@@ -14,6 +14,7 @@ spec:
     - repoURL: https://github.com/samymokhtari/samy.cloud.git
       path: kubernetes/argocd
       targetRevision: main
+      kustomize: {}
   syncPolicy:
     automated:
       prune: true

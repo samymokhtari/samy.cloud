@@ -1,0 +1,63 @@
+# kubernetes/argocd/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  - ingress.yaml
+
+patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: argocd-application-controller
+        namespace: argocd
+      spec:
+        template:
+          spec:
+            containers:
+              - name: application-controller
+                resources:
+                  requests:
+                    memory: 256Mi
+                    cpu: 50m
+                  limits:
+                    memory: 512Mi
+                    cpu: 500m
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: argocd-server
+        namespace: argocd
+      spec:
+        template:
+          spec:
+            containers:
+              - name: argocd-server
+                resources:
+                  requests:
+                    memory: 64Mi
+                    cpu: 20m
+                  limits:
+                    memory: 128Mi
+                    cpu: 200m
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: argocd-repo-server
+        namespace: argocd
+      spec:
+        template:
+          spec:
+            containers:
+              - name: argocd-repo-server
+                resources:
+                  requests:
+                    memory: 64Mi
+                    cpu: 20m
+                  limits:
+                    memory: 128Mi
+                    cpu: 200m
