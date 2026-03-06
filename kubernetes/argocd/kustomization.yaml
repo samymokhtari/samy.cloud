@@ -1,7 +1,7 @@
 kind: Kustomization
 
 resources:
-  - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.14.1/manifests/install.yaml
   - ingress.yaml
 
 patches:
