@@ -4,6 +4,7 @@ kind: Kustomization
 # On importe les manifests officiels d'Argo CD en version 3.5.3
 resources:
   - https://raw.githubusercontent.com/argoproj/argo-cd/v3.5.3/manifests/install.yaml
+  - ingress.yaml
 
 # On applique un patch intelligent sur la ConfigMap argocd-cm
 patches:
