@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# On importe les manifests officiels d'Argo CD en version 3.5.3
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v3.5.3/manifests/install.yaml
+
+# On applique un patch intelligent sur la ConfigMap argocd-cm
+patches:
+  - target:
+      kind: ConfigMap
+      name: argocd-cm
+    patch: |-
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: argocd-cm
+        namespace: argocd
+      data:
+        ui.cssurl: "https://cdn.jsdelivr.net/gh/ClemVonSchweetz/argocd-themes@v1.0.0/dist/themes/alice-in-wonderland-alice.css"
